@@ -1,21 +1,13 @@
-#include <iostream>
-#include <string>
-#include <unordered_map>
-using namespace std;
-int main()
-{
-    //创建空 umap 容器
-    unordered_map<string, string> umap;
-    //向 umap 容器添加新键值对
-    umap.emplace("Python教程", "http://c.biancheng.net/python/");
-    umap.emplace("Java教程", "http://c.biancheng.net/java/");
-    umap.emplace("Linux教程", "http://c.biancheng.net/linux/");
 
-    //输出 umap 存储键值对的数量
-    cout << "umap size = " << umap.size() << endl;
-    //使用迭代器输出 umap 容器存储的所有键值对
-    for (auto iter = umap.begin(); iter != umap.end(); ++iter) {
-        cout << iter->first << " " << iter->second << endl;
-    }
-    return 0;
-}
+void LRUReplacer::Unpin(frame_id_t frame_id) {
+  std::lock_guard<std::mutex> guard(m_lock);
+  // key already exists, just update the queue
+  if(auto mapIter = m_lruMap.find(frame_id);mapIter!=m_lruMap.end()){
+    m_lruList.splice(m_lruList.begin(),m_lruList,mapIter->second);
+  }else{
+    m_lruList.push_front(frame_id);
+    m_lruMap[frame_id] = m_lruList.begin();
+
+————————————————
+版权声明：本文为CSDN博主「wwxy261」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/wwxy1995/article/details/113360396
